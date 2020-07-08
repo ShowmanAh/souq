@@ -23,3 +23,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/site', function(){
 return view('website.index');
 });
+Route::get('dashboard', function(){
+return view('dashboard.index');
+});
