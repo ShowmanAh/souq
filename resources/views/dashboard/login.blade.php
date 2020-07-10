@@ -78,7 +78,7 @@
                  @include('layouts.dashboard.asside.success')
                             <div class="card-content">
                                 <div class="card-body">
-                                    <form class="form-horizontal form-simple" action="{{ route('dashboard.login')}}" method="post"
+                                    <form class="form-horizontal form-simple" action="{{ route('admin.login')}}" method="post"
                                           novalidate>
                                           @csrf
                                         <fieldset class="form-group position-relative has-icon-left mb-0">
