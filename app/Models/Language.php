@@ -18,7 +18,7 @@ class Language extends Model
     }
     // accessors
     public function getActive(){
-       return $this->active == 1 ? 'مفعل'  : 'غير مفعل';
+       return $this->active == 1 ? 'غير مفعل' : 'مفعل';
 
     }
 

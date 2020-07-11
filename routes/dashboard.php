@@ -20,7 +20,18 @@ Route::group(['namespace'=> 'Dashboard', 'middleware'=> 'auth:admin'], function 
         Route::post('/updated/{id}', 'LanguagesController@update')->name('admin.languages.update');
         Route::get('/delete/{id}', 'LanguagesController@destroy')->name('admin.languages.destroy');
     });
+######### end language route #########
 
+#### MainCategoryRoute ###########
+Route::group(['prefix' => '/maincategories'], function () {
+    Route::get('/', 'MainCategoriesController@index')->name('admin.maincategories');
+    Route::get('/create', 'MainCategoriesController@create')->name('admin.maincategories.create');
+    Route::post('/store', 'MainCategoriesController@store')->name('admin.maincategories.store');
+    Route::get('/edit/{id}', 'MainCategoriesController@edit')->name('admin.maincategories.edit');
+    Route::post('/updated/{id}', 'MainCategoriesController@update')->name('admin.maincategories.update');
+    Route::get('/delete/{id}', 'MainCategoriesController@destroy')->name('admin.maincategories.destroy');
+});
+#### end MainCategory Route ###########
 
 });
 ### route quest ###
