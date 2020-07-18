@@ -34,21 +34,26 @@ public function edit($id){
  }
  return view('dashboard.languages.edit', compact('lang'));
 }
-public function update(LanguageRequest $request, $id){
+public function update($id, LanguageRequest $request)
+{
 
-   try {
-    $lang = Language::find($id);
-    if(!$lang){
-        return redirect()->route('admin.languages.edit',$id)->with(['eror'=> 'هذه اللغه غير موجوده']);
+    try {
+        $language = Language::find($id);
+        if (!$language) {
+            return redirect()->route('admin.languages.edit', $id)->with(['error' => 'هذه اللغة غير موجوده']);
+        }
+
+
+        if (!$request->has('active'))
+            $request->request->add(['active' => 0]);
+
+        $language->update($request->except('_token'));
+
+        return redirect()->route('admin.languages')->with(['success' => 'تم تحديث اللغة بنجاح']);
+
+    } catch (\Exception $ex) {
+        return redirect()->route('admin.languages')->with(['error' => 'هناك خطا ما يرجي المحاوله فيما بعد']);
     }
-       if(!$request->has('active')){
-        $request->request->add(['active' => 0]);
-       }
-      $lang->update($request->except(['_token']));
-      return redirect()->route('admin.languages')->with(['success'=> 'تم تحديث اللغه بنجاح']);
-   } catch (\Exception $ex) {
-      return redirect()->route('admin.languages')->with(['error' => 'هناك خطأ يرجى المحاوله مجددا']);
-   }
 }
   public function destroy($id){
       $lang = Language::find($id);

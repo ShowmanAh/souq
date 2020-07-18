@@ -48,11 +48,14 @@
                                             class="table display nowrap table-striped table-bordered ">
                                             <thead>
                                             <tr>
-                                                <th>الترقيم</th>
+                                                <th>
+                                                    #
+                                                </th>
+                                                <th>صوره القسم</th>
                                                 <th> القسم</th>
                                                 <th>اللغه</th>
                                                 <th>الحاله</th>
-                                                <th>صوره القسم</th>
+                                                
                                                 <th>الإجراءات</th>
                                             </tr>
                                             </thead>
@@ -63,9 +66,11 @@
                                               <tr>
 
                                                   <td>{{ $index+1 }}</td>
-                                                  <td>{{ $lang->name}}</td>
+                                                  <td><img style="width:50px;height:50px;" src="{{ $category->image}}" alt=""></td>
+
+                                                  <td>{{ $category->name}}</td>
                                                   <td>{{ get_default_lang()}}</td>
-                                                  <td>{{ $lang->getActive()}}</td>
+                                                  <td>{{ $category->getActive()}}</td>
 
                                                   <td>
                                                       <a href="{{ route('admin.maincategories.edit', $category->id)}}"
