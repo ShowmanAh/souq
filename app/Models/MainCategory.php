@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\MainCategoryObserver;
 use Illuminate\Database\Eloquent\Model;
 
 class MainCategory extends Model
@@ -16,6 +17,11 @@ class MainCategory extends Model
     public function scopeSelection($query){
            return $query->select('id','translation_lang',  'name', 'slug', 'image', 'active');
     }
+    // listen observer
+    protected static function boot(){
+        parent::boot();
+        MainCategory::observe(MainCategoryObserver::class);
+    }
     // get active
     public function getActive(){
         return $this->active == 1 ?  'مفعل' : 'غير مفعل';
@@ -25,6 +31,12 @@ class MainCategory extends Model
         return ($val !== null) ? asset('assets/' . $val) : '';
     }
     public function categories(){
-        return $this->hasMany(self::class,'translation_off');
+        return $this->hasMany(self::class,'translation_off');// one to many between default category and translation category
     }
+
+    public function vendors()
+    {
+        return $this->hasMany(Vendor::class, 'category_id', 'id');
+    }
+
 }

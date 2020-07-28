@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use DB;
+use Illuminate\Support\Str;
 use App\Models\MainCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -95,7 +96,7 @@ public function update(Request $request, $id){
         'image' => 'required_without:id|mimes:jpg,jpeg,png',
         'category' => 'required|array|min:1',
         'category.*.name' => 'required',
-        
+
        ];
        $validator = validator()->make($request->all(), $rules);
        if($validator->fails()){
@@ -138,14 +139,48 @@ return redirect()->route('admin.maincategories')->with(['success'=> '  تم ال
 public function destroy($id){
   try {
       $main_category = MainCategory::find($id);
+
       if(!$main_category){
         return redirect()->route('admin.maincategories')->with(['error'=>'  لايوجد هذا القسم  ']);
       }
+      // check if category has vendors
+      $vendors = $main_category->vendors();
+     // dd($vendors);
+          if (isset($vendors) && $vendors->count() > 0) {
+           // return 1;
+                return redirect()->route('admin.maincategories')->with(['error' => 'لأ يمكن حذف هذا القسم  ']);
+            }
+            //return $main_category->image;
+         $image = Str::after($main_category->image, 'assets/');// cutting domain http localhost
+        $image = base_path('assets/'.$image); // get image path
+        // return $image;
+          unlink($image); // delete image from folder
+         // $main_category->categories()->delete();   // delete default language with other language on this category
+
       $main_category->delete();
       return redirect()->route('admin.maincategories')->with(['success'=> '  تم الحذف']);
   } catch (\Exception $ex) {
+      return $ex;
     return redirect()->route('admin.maincategories')->with(['error'=>'هناك خطأ ما حاول مجددا']);
   }
 
+}
+public function changeStatus($id){
+    try {
+        // dd($request->all());
+        $main_category = MainCategory::find($id);
+
+        if (!$main_category) {
+            return redirect()->route('admin.maincategories')->with(['error'=> 'لايوجد هذا القسم']);
+        }
+       $status =  $main_category->active == 0 ? 1 : 0;
+       $main_category->update([
+          'active' => $status
+       ]);
+       return redirect()->route('admin.maincategories')->with(['success'=> '  تم تحديث الحاله']);
+    }catch (\Exception $ex) {
+        return $ex;
+      return redirect()->route('admin.maincategories')->with(['error'=>'هناك خطأ ما حاول مجددا']);
+    }
 }
 }

@@ -30,8 +30,21 @@ Route::group(['prefix' => '/maincategories'], function () {
     Route::get('/edit/{id}', 'MainCategoriesController@edit')->name('admin.maincategories.edit');
     Route::post('/updated/{id}', 'MainCategoriesController@update')->name('admin.maincategories.update');
     Route::get('/delete/{id}', 'MainCategoriesController@destroy')->name('admin.maincategories.destroy');
+    Route::get('/changestaues/{id}', 'MainCategoriesController@changeStatus')->name('admin.maincategories.changeStatus');
 });
 #### end MainCategory Route ###########
+
+#### Vendors Route ###########
+Route::group(['prefix' => '/vendors'], function () {
+    Route::get('/', 'VendorsController@index')->name('admin.vendors');
+    Route::get('/create', 'VendorsController@create')->name('admin.vendors.create');
+    Route::post('/store', 'VendorsController@store')->name('admin.vendors.store');
+    Route::get('/edit/{id}', 'VendorsController@edit')->name('admin.vendors.edit');
+    Route::post('/updated/{id}', 'VendorsController@update')->name('admin.vendors.update');
+    Route::get('/delete/{id}', 'VendorsController@destroy')->name('admin.vendors.destroy');
+    Route::get('/changestaues/{id}', 'VendorsController@changeStatus')->name('admin.vendors.changeStatus');
+});
+#### end Vendors Route ###########
 
 });
 ### route quest ###
